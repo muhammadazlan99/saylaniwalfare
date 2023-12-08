@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var passPrompt = +prompt('Enter the pdassword length')
+        var string = 'abdcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-=+'
+        var password = ''
+        stringLength = string.length;
+        for (var i = 0; i <= passPrompt; i++) {
+            password+= string.charAt(Math.floor(Math.random() * stringLength))
+        }
+        console.log(password);
+
+    </script>
+</body>
+</html>

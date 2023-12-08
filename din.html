@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f7f7f7;
+        }
+
+        .game-container {
+            position: relative;
+            width: 600px;
+            height: 200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 2px solid #ccc;
+        }
+
+        .dino {
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            width: 40px;
+            height: 40px;
+            background-color: #00f;
+            transition: transform 0.2s;
+        }
+
+        .cactus {
+            position: absolute;
+            bottom: 0;
+            left: 100%;
+            width: 20px;
+            height: 40px;
+            background-color: #f00;
+            border-radius: 5px;
+            border: 1px solid #000;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+        }
+
+        #retry-button {
+            display: none;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #00f;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="dino" id="dino"></div>
+    </div>
+    <div id="score">Score: 0</div>
+    <button id="retry-button" onclick="restartGame()">Retry</button>
+    <script>
+        const gameContainer = document.querySelector(".game-container");
+        const dino = document.getElementById("dino");
+        const scoreElement = document.getElementById("score");
+        const retryButton = document.getElementById("retry-button");
+        let isJumping = false;
+        let isGameOver = false;
+        let score = 0;
+
+        document.addEventListener("keydown", jump);
+
+        function jump(event) {
+            if (!isGameOver && event.keyCode === 32 && !isJumping) { // Space key
+                isJumping = true;
+                dino.style.transform = "translateY(-60px)";
+                setTimeout(() => {
+                    dino.style.transform = "translateY(0)";
+                    isJumping = false;
+                }, 500);
+            }
+        }
+
+        function createCactus() {
+            if (isGameOver) return;
+            const cactus = document.createElement("div");
+            cactus.className = "cactus";
+            gameContainer.appendChild(cactus);
+
+            const cactusInterval = setInterval(() => {
+                const cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("left"));
+
+                if (cactusLeft < -20) {
+                    cactus.remove();
+                }
+
+                cactus.style.left = cactusLeft - 2 + "px";
+
+                if (!isGameOver && cactusLeft <= dino.offsetLeft + dino.offsetWidth && cactusLeft >= dino.offsetLeft) {
+                    checkCollision();
+                }
+            }, 10);
+        }
+
+        function checkCollision() {
+            isGameOver = true;
+            retryButton.style.display = "block";
+        }
+
+        function restartGame() {
+            location.reload();
+        }
+
+        setInterval(() => {
+            createCactus();
+            score++;
+            scoreElement.innerText = `Score: ${score}`;
+        }, 2000);
+    </script>
+</body>
+</html>

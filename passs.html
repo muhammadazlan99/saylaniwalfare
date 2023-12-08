@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+</head>
+<body>
+    <script>
+        // Define character sets
+        var specialChars = '@!#$%';
+        var alphabet = 'abcd';
+        var capAlpha = 'ABCD';
+        var numbers = '1234567890';
+
+        // Function to generate a random password
+        function generatePassword(length) {
+            var allChars = specialChars + alphabet + capAlpha + numbers;
+            var password = '';
+
+            for (var i = 0; i < length; i++) {
+                var randomIndex = Math.floor(Math.random() * allChars.length);
+                password += allChars.charAt(randomIndex);
+            }
+
+            return password;
+        }
+
+        // Function to check password strength
+        function checkPasswordStrength(password) {
+            var strength = {
+                hasSpecialChars: false,
+                hasLowercase: false,
+                hasUppercase: false,
+                hasNumbers: false,
+            };
+
+            for (var i = 0; i < password.length; i++) {
+                var char = password.charAt(i);
+
+                if (specialChars.includes(char)) {
+                    strength.hasSpecialChars = true;
+                } else if (alphabet.includes(char)) {
+                    strength.hasLowercase = true;
+                } else if (capAlpha.includes(char)) {
+                    strength.hasUppercase = true;
+                } else if (numbers.includes(char)) {
+                    strength.hasNumbers = true;
+                }
+            }
+
+            return strength;
+        }
+
+        // Generate and check password
+        var userInp = 12;
+        var generatedPassword = generatePassword(userInp);
+        console.log('Generated Password: ', generatedPassword);
+
+        var strengthResult = checkPasswordStrength(generatedPassword);
+
+        console.log('Password Strength:');
+        console.log('Has Special Characters: ', strengthResult.hasSpecialChars);
+        console.log('Has Lowercase Letters: ', strengthResult.hasLowercase);
+        console.log('Has Uppercase Letters: ', strengthResult.hasUppercase);
+        console.log('Has Numbers: ', strengthResult.hasNumbers);
+    </script>
+</body>
+</html>

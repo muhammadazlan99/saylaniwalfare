@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f7f7f7;
+        }
+
+        .game-container {
+            position: relative;
+            width: 600px;
+            height: 200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .dino {
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            width: 40px;
+            height: 40px;
+            background-color: #00f;
+        }
+
+        .cactus {
+            position: absolute;
+            bottom: 0;
+            right: -20px;
+            width: 20px;
+            height: 40px;
+            background-color: #f00;
+            border-radius: 5px;
+            animation: moveCactus 2s linear infinite;
+        }
+
+        @keyframes moveCactus {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="dino" id="dino"></div>
+        <div class="cactus" id="cactus"></div>
+    </div>
+    <script>
+        const dino = document.getElementById("dino");
+        const cactus = document.getElementById("cactus");
+
+        document.addEventListener("keydown", jump);
+
+        function jump(event) {
+            if (event.keyCode === 32) { // Space key
+                if (dino.classList.contains("jump")) return;
+
+                dino.classList.add("jump");
+                setTimeout(() => {
+                    dino.classList.remove("jump");
+                }, 500);
+            }
+        }
+
+        function checkGameOver() {
+            const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+            const cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("left"));
+
+            if (cactusLeft < 50 && cactusLeft > 0 && dinoBottom <= 40) {
+                alert("Game Over!");
+                location.reload(); // Reload the page to restart the game
+            }
+        }
+
+        setInterval(checkGameOver, 10);
+    </script>
+</body>
+</html>

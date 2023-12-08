@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var bucket = '12345@!#$%ABCDabcd8989598938@@'
+        var specialChars = ['@', '!', '#', '$', '%']
+        var alphabet = ['a', 'b', 'c', 'd']
+        var capAlpha = ['A', "B", "C", "D"]
+        var numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+        var userInp = 12
+        var pass = ''
+        var generatePass = () => {
+            for (var i = 0; i < userInp; i++) {
+                var random = Math.floor(Math.random() * bucket.length)
+                pass += bucket[random];
+            }
+            console.log('Passowrd: ', pass);
+            }
+        var spec1 = ''
+        var spec2 = ''
+        var spec3 = ''
+        var spec4 = ''
+        var specialcharcount = 0;
+        generatePass();
+        function PassStrength(){
+            for (var i = 0; i < pass.length; i++) {
+                if (specialChars.includes(pass[i])){
+                    console.log("special character hai");
+                    specialcharcount = specialcharcount++
+                } else if (alphabet.includes(pass[i])){
+                    console.log('small characte hai');
+                } else if (capAlpha.includes(pass[i])){
+                    console.log('capital characte hai');
+                } else if (numbers.includes(pass[i])){
+                    console.log('number bhi hai');
+            }
+        }
+}
+
+        PassStrength();     
+        </script>
+</body>
+</html>

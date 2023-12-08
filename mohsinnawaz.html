@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onclick Event</title>
+    <style>
+        #main {
+            width: 100vw;
+            height: 100vh;
+            background-color: red;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            justify-content: center;
+            align-items: center;
+        }
+        button {
+            width: 350px;
+            padding: 10px;
+            height: 50px;
+            border: none;
+            border-radius: 100px;
+            background-color: rgb(255, 43, 79);
+            color: #fff;
+            font-weight: bold;
+            font-size: 17px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1></h1>
+        <button>click me to change the page</button>
+    </div>
+    <script>
+        var btn = document.querySelector("button")
+        var h1 = document.querySelector("h1")
+        flag = 0
+        // function displaymessage() {
+        //     h1.textContent = "I Love You"
+        // }
+        btn.addEventListener("click", function() {
+            setTimeout(h1.textContent = "WE LOVE YOU", 3000)
+        })
+    </script>
+</body>
+</html>

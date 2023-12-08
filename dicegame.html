@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice Game</title>
+    <style>
+      /* Styling for player score boxes */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        background-color: seagreen;
+      }
+      .main {
+        width: 100%;
+        height: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      h1 {
+        /* font-weight: 700; */
+        font-size: 50px;
+        color: #fff;
+        /* -webkit-text-stroke: 1px #ffff; */
+      }
+      #score1 {
+        width: 100px;
+        height: 100px;
+        background-color: yellow;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        position: relative;
+      }
+
+      #score1::before {
+        content: "Player 1:";
+        position: absolute;
+        left: -220px;
+        color: coral;
+        font-weight: 700;
+        -webkit-text-stroke: 1px black;
+      }
+      #score2 {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        position: relative;
+      }
+      #score2::before {
+        content: "Player 2:";
+        position: absolute;
+        left: -220px;
+        color: coral;
+        font-weight: 700;
+        -webkit-text-stroke: 1px black;
+      }
+      #result {
+        font-size: 50px;
+        font-weight: 700;
+        color: rgb(0, 55, 219);
+        width: 100%;
+        text-align: center;
+        border: 1px solid black;
+        width: 50%;
+        background-color: coral;
+      }
+
+      button {
+        width: 210px;
+        height: 50px;
+        font-size: 20px;
+        padding: 0 5px;
+        border: none;
+        border-radius: 3px;
+      }
+
+      @media screen and (max-width: 380px) {
+        .main {
+          width: 80%;
+          height: 100%;
+          gap: 5px;
+        }
+        h1 {
+          font-size: 30px;
+          color: black;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Game title and elements -->
+    <div class="main">
+      <h1>Welcome to the Dice Game by Mohsin Nawaz [133483] & Azlan [032]</h1>
+      <p id="p1-score"></p>
+      <p id="p2-score"></p>
+      <p id="score1"></p>
+      <p id="score2"></p>
+      <!-- <p id="game-over"></p> -->
+      <button id="dice">Click to roll your dice</button>
+      <h2 id="result"></h2>
+    </div>
+    <script>
+      // Get references to HTML elements
+      var dicer = document.getElementById("dice");
+      var result = document.getElementById("result");
+      var currentPlayer = 1;
+      let player1score = 0;
+      let player2score = 0;
+
+      // Function to determine the winner or a draw
+      function determineWinner() {
+        if (player1score > player2score) {
+          result.textContent = "Player 1 is the Winner!";
+          dicer.disabled = true;
+        } else if (player1score < player2score) {
+          result.textContent = "Player 2 is the Winner!";
+          dicer.disabled = true;
+        } else {
+          result.textContent = "DRAW!";
+          dicer.disabled = true;
+        }
+      }
+
+      // Event listener for the dice roll button
+      dicer.addEventListener("click", function () {
+        if (currentPlayer == 1) {
+          // Roll the dice for Player 1
+          var tempScore = Math.floor(Math.random() * 6 + 1);
+          document.getElementById("score1").textContent = tempScore;
+          player1score += tempScore;
+          currentPlayer = 2;
+        } else if (currentPlayer == 2) {
+          // Roll the dice for Player 2
+          var tempScore = Math.floor(Math.random() * 6 + 1);
+          document.getElementById("score2").textContent = tempScore;
+          player2score += tempScore;
+          currentPlayer = 3;
+          determineWinner();
+        } else {
+          // Display the winner or draw
+          determineWinner();
+        }
+      });
+    </script>
+  </body>
+</html>
