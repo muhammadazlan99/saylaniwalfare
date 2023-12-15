@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+</head>
+<body>
+    <form id="registrationForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required><br>
+
+        <label for="cnic">CNIC:</label>
+        <input type="text" id="cnic" required><br>
+
+        <label for="fatherName">Father's Name:</label>
+        <input type="text" id="fatherName" required><br>
+
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" accept="image/*" required><br>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        function submitForm() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const cnic = document.getElementById('cnic').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const image = document.getElementById('image').files[0];
+
+            // Create a reference to the Firebase Storage bucket
+            const storageRef = firebase.storage().ref();
+
+            // Create a child reference with a unique name
+            const imageRef = storageRef.child(`images/${Date.now()}_${image.name}`);
+
+            // Upload the image to Firebase Storage
+            imageRef.put(image).then(snapshot => {
+                console.log('Image uploaded successfully!');
+
+                // Get the download URL for the image
+                snapshot.ref.getDownloadURL().then(downloadURL => {
+                    // Now you can save the registration data and image URL to your database
+                    console.log('Download URL:', downloadURL);
+
+                    // Example: Save the registration data to Firebase Realtime Database
+                    const database = firebase.database();
+                    const registrationsRef = database.ref('registrations');
+
+                    registrationsRef.push({
+                        firstName: firstName,
+                        lastName: lastName,
+                        cnic: cnic,
+                        fatherName: fatherName,
+                        imageURL: downloadURL
+                    });
+
+                    alert('Registration successful!');
+                });
+            }).catch(error => {
+                console.error('Error uploading image:', error.message);
+            });
+        }
+    </script>
+    <script src="src.js"></script>
+</body>
+</html>

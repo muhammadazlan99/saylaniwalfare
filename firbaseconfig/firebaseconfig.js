@@ -7,7 +7,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
     sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyA7uxqDUHLiJBKDf96xnErmrZiKxZSGOHE",
     authDomain: "chatapp-632ea.firebaseapp.com",
